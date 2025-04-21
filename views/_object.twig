@@ -1,0 +1,19 @@
+{% extends "_layout.twig" %}
+{% block content %}
+ <div>
+<ul class="nav nav-pills">
+   {% for item in submenu %}
+    <a 
+        class="nav-link {{ title == item.title ? 'active' : '' }}" 
+        href="{{ item.url|replace({'{{ base }}': base}) }}"
+    >
+        {{ item.title }}
+    </a>
+  {% endfor %}
+  </li>
+</ul>
+</div>
+    {% block objectContent %}
+   
+    {% endblock %}
+{% endblock %}
