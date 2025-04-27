@@ -1,6 +1,14 @@
 <?php
 // подключаем пакеты которые установили через composer
 require_once '../vendor/autoload.php';
+require_once "../controllers/MainController.php";
+require_once "../controllers/DogsController.php";
+require_once "../controllers/CatsController.php";
+require_once "../controllers/CatsInfoController.php";
+require_once "../controllers/CatsImageController.php";
+require_once "../controllers/DogsInfoController.php";
+require_once "../controllers/DogsImageController.php";
+
 
 // создаем загрузчик шаблонов, и указываем папку с шаблонами
 // \Twig\Loader\FilesystemLoader -- это типа как в C# писать Twig.Loader.FilesystemLoader, 
@@ -12,68 +20,30 @@ $twig = new \Twig\Environment($loader);
 $template="";
 $title="";
 $context = [];
+$controller=null;
+
 $url = $_SERVER["REQUEST_URI"];
 if ($url == "/") {
-    $template="main.twig";
-    $title="Главная";
-
+    $controller=new MainController($twig);
 }
 elseif(preg_match("#/dogs/info#", $url)){
-    $template="dogs_info.twig";
-    $title="Информация";
-    $context['base']="dogs";
+    $controller=new DogsInfoController($twig);
 }
 elseif(preg_match("#/cats/info#", $url)){
-    $template="infoCats.twig";
-    $title="Информация";
-    $context['base']="cats";
+   $controller=new CatsInfoController($twig);
 }
 elseif(preg_match("#/dogs/image#", $url)){
-    $template="image.twig";
-    $title="Картинка";
-    $context['image']="/image/korgi.jpg";
-    $context['base']="dogs";
+   $controller=new DogsImageController($twig);
 }
 elseif(preg_match("#/cats/image#", $url)){
-    $template="image.twig";
-    $title="Картинка";
-    $context['image']="/image/kot.jpg";
-    $context['base']="cats";
+   $controller=new CatsImageController($twig);
 }
 elseif (preg_match("#/cats#", $url)) {
-   $template="cats.twig";
-   $title="Котики";
-   $context['base']="cats";
+   $controller=new CatsController($twig);
 }
  elseif (preg_match("#/dogs#", $url)) {
-    $template="dogs.twig";
-    $title="Собачки";
-    $context['base']="dogs";
+    $controller=new DogsController($twig);
 }
-$menu = [ 
-    [
-        "title" => "Главная",
-        "url" => "/",
-    ],
-    [
-        "title" => "Котики",
-        "url" => "/cats",
-    ],
-    [
-        "title" => "Собачки",
-        "url" => "/dogs",
-    ]
-];
-$submenu=[
-    ["title"=>"Информация",
-        "url"=>"/{{ base }}/info",
-    ],
-    [
-        "title"=>"Картинка",
-        "url"=>"/{{ base }}/image",
-    ]
-];
-$context['title'] = $title;
-$context['menu'] = $menu; // передаем меню в контекст
-$context['submenu']=$submenu;
-echo $twig->render($template, $context);
+if($controller){
+    $controller->get();
+}
