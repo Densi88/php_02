@@ -1,5 +1,16 @@
 {% extends "_layout.twig" %}
 
 {% block content %}
+{% import "macros.twig" as macros %}
+     <div>
+       {{ macros.btn("Коты", "/cats", true, ('primary')) }}
+       {{ macros.btn("Картинка", "/cats/image", item.is_active, item.style|default('primary')) }}
+       {{ macros.btn("Информация", "/cats/info", item.is_active, item.style|default('primary')) }}
+     </div>
+    <div>
+       {{ macros.btn("Собаки", "/dogs", true, item.style|default('primary')) }}
+       {{ macros.btn("Картинка", "/dogs/image", item.is_active, item.style|default('primary')) }}
+       {{ macros.btn("Информация", "/dogs/info", item.is_active, item.style|default('primary')) }}
+     </div>
 
 {% endblock %}
