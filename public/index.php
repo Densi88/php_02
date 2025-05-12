@@ -8,6 +8,7 @@ require_once "../controllers/CatsInfoController.php";
 require_once "../controllers/CatsImageController.php";
 require_once "../controllers/DogsInfoController.php";
 require_once "../controllers/DogsImageController.php";
+$pdo = new PDO("mysql:host=localhost;dbname=home_animals;charset=utf8", "root", "");
 
 
 // создаем загрузчик шаблонов, и указываем папку с шаблонами
@@ -15,8 +16,12 @@ require_once "../controllers/DogsImageController.php";
 // только слеш вместо точек
 $loader = new \Twig\Loader\FilesystemLoader('../views');
 
+
 // создаем собственно экземпляр Twig с помощью которого будет рендерить
-$twig = new \Twig\Environment($loader);
+$twig = new \Twig\Environment($loader,[
+   "debug"=>true
+]);
+$twig->addExtension(new \Twig\Extension\DebugExtension()); // и активируем расширение
 $template="";
 $title="";
 $context = [];
@@ -45,5 +50,6 @@ elseif (preg_match("#/cats#", $url)) {
     $controller=new DogsController($twig);
 }
 if($controller){
+   $controller->setPdo($pdo);
     $controller->get();
 }

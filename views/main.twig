@@ -1,16 +1,42 @@
 {% extends "_layout.twig" %}
-
-{% block content %}
 {% import "macros.twig" as macros %}
-     <div>
-       {{ macros.btn("Коты", "/cats", true, ('primary')) }}
-       {{ macros.btn("Картинка", "/cats/image", item.is_active, item.style|default('primary')) }}
-       {{ macros.btn("Информация", "/cats/info", item.is_active, item.style|default('primary')) }}
-     </div>
-    <div>
-       {{ macros.btn("Собаки", "/dogs", true, item.style|default('primary')) }}
-       {{ macros.btn("Картинка", "/dogs/image", item.is_active, item.style|default('primary')) }}
-       {{ macros.btn("Информация", "/dogs/info", item.is_active, item.style|default('primary')) }}
-     </div>
-
+{% block content %}
+<pre>
+<div class="animal-row" style="
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;  
+    gap: 20px;       
+    justify-content: center; 
+">
+  {% for object in animals %}
+  <div class="animal-container" style="
+   display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    width: 250px;  
+  ">
+    <div style="
+      border: 1px solid black;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    ">
+      <img src="{{ object.image }}" style="
+        width: 220px;
+        height: 190px;
+        object-fit: cover; 
+      ">
+    </div>
+    {{ macros.btn(object.title, "/cats/image", True, object.style|default('primary')) }}
+    {{ macros.btn("Картинка", "/cats/image", False, object.style|default('primary')) }}
+    {{ macros.btn("Описание", "/cats/image", False, object.style|default('primary')) }}
+  </div>
+  {% endfor %}
+</div>
+</pre>
 {% endblock %}
