@@ -18,9 +18,19 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-    {% for item in menu %}
-        <a class="nav-link" href="{{item.url}}" class="{{ title == item.title ? 'active' }}">{{item.title}}</a>
-    {% endfor %}
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Главная</a>
+                </li>
+          <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/search">Поиск</a>
+                </li>
+     {% for type in types %}
+                    <li class="nav-item">
+                        <!-- type.type -- выдает тип, 
+                               а добавление |title делает первую букву с слова большой  -->
+                        <a class="nav-link" href="/?type={{ type.type }}">{{ type.type|title }}</a>
+                    </li>
+                {% endfor %}
       </div>
     </div>
   </div>

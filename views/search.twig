@@ -1,0 +1,51 @@
+{% extends "_layout.twig" %}
+
+{% block content %}
+    <h1>Поиск животных</h1>
+
+    <form method="get" action="/search">
+        <div class="form-group">
+            <label>Тип животного:
+                <select name="type" class="form-control">
+                    <option value="">Все типы</option>
+                    <option value="домашние" {% if search_type == 'домашние' %}selected{% endif %}>Домашние</option>
+                    <option value="дикие" {% if search_type == 'дикие' %}selected{% endif %}>Дикие</option>
+                </select>
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label>Название:
+                <input type="text" name="title" class="form-control" value="{{ search_title }}">
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label>Описание:
+                <input type="text" name="description" class="form-control" value="{{ description }}">
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Найти</button>
+    </form>
+
+    {% if objects %}
+        <div class="search-results mt-4">
+            <h2>Результаты поиска:</h2>
+            <div class="row">
+                {% for animal in objects %}
+                    <div class="col-md-4 mb-4">
+                            <div class="card-body">
+                                <h2 class="card-title">{{ animal.title }}</h2>
+                                <h5 class="card-title">{{ animal.description }}</h5>
+                                <a href="/animal/{{ animal.id }}" class="btn btn-primary">Подробнее</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <p class="mt-4">Ничего не найдено. Попробуйте изменить параметры поиска.</p>
+    {% endif %}
+{% endblock %}
