@@ -1,5 +1,5 @@
 <?php
-    require_once "TwigBaseController.php";
+    
     class CatsController extends TwigBaseController{
         public $template="cats.twig";
         public $title="Котики";

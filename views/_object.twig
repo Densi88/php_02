@@ -1,19 +1,21 @@
 {% extends "_layout.twig" %}
+
 {% block content %}
- <div>
-<ul class="nav nav-pills">
-   {% for item in submenu %}
-    <a 
-        class="nav-link {{ title == item.title ? 'active' : '' }}" 
-        href="{{ item.url|replace({'{{ base }}': base}) }}"
-    >
-        {{ item.title }}
-    </a>
-  {% endfor %}
-  </li>
-</ul>
+<div>
+    <ul class="nav nav-pills">
+        {% for item in submenu %}
+            <li class="nav-item">
+                <a class="nav-link {{ current_route == item.url ? 'active' : '' }}" 
+                   href="{{ item.url }}">
+                    {{ item.title }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
 </div>
-    {% block objectContent %}
-   
-    {% endblock %}
+
+{# Место для контента дочерних шаблонов #}
+{% block objectContent %}
+
+{% endblock %}
 {% endblock %}

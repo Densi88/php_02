@@ -5,11 +5,11 @@
         public $title = ""; // название страницы
         public $template = ""; // шаблон страницы
         protected \Twig\Environment $twig; // ссылка на экземпляр twig, для рендернига
+        
     
-        public function __construct($twig)
-        {
-            $this->twig = $twig; // пробрасываем его внутрь
-        }
+        public function setTwig($twig) {
+        $this->twig = $twig;
+    }
     
         public function getContext() : array
         {

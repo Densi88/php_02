@@ -32,9 +32,9 @@
         object-fit: cover; 
       ">
     </div>
-    {{ macros.btn(object.title, "/cats/image", True, object.style|default('primary')) }}
-    {{ macros.btn("Картинка", "/cats/image", False, object.style|default('primary')) }}
-    {{ macros.btn("Описание", "/cats/image", False, object.style|default('primary')) }}
+    {{ macros.btn(object.title, "/animal/" ~ object.id, True, style|default('primary')) }}
+    {{ macros.btn("Картинка",  "/animal/" ~ object.id  ~ "/image", False, style|default('primary')) }}
+    {{ macros.btn("Описание",  "/animal/" ~ object.id ~ "/info", False, style|default('primary')) }}
   </div>
   {% endfor %}
 </div>
