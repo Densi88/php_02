@@ -39,6 +39,7 @@ class Router {
     public function get_or_default($default_controller) {
         $url = $_SERVER["REQUEST_URI"]; // получили url
         $path=parse_url($url, PHP_URL_PATH);
+       
 
         // фиксируем в контроллер $default_controller
         $controller = $default_controller;
@@ -64,7 +65,6 @@ class Router {
             $controllerInstance->setTwig($this->twig);
         }
 
-        // вызываем
-        return $controllerInstance->get();
+         return $controllerInstance->process_response();
     }
 }

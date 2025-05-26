@@ -4,6 +4,8 @@ require_once '../vendor/autoload.php';
 require_once '../framework/autoload.php';
 require_once "../controllers/MainController.php";
 require_once "../controllers/SearchController.php";
+require_once "../controllers/AnimalCreateController.php";
+require_once "../controllers/TypeCreateController.php";
 $pdo = new PDO("mysql:host=localhost;dbname=home_animals;charset=utf8", "root", "");
 
 
@@ -27,4 +29,6 @@ $router = new Router($twig, $pdo);
 $router->add("#^/$#", MainController::class);
 $router->add("#^/animal/(?P<id>\d+)/?$#", ObjectController::class);
 $router->add("#^/search/?$#", SearchController::class);
+$router->add("#^/add/types?$#", TypeCreateController::class);
+$router->add("#^/add/?$#", AnimalCreateController::class);
 echo $router->get_or_default(MainController::class);

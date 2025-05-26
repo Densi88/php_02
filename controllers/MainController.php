@@ -9,7 +9,7 @@
     {
         $context = parent::getContext();
         if(isset($_GET['type'])){
-            $query=$this->pdo->prepare("SELECT * FROM animals WHERE type =:type");
+            $query=$this->pdo->prepare("SELECT animals.* FROM animals JOIN `type` ON animals.type_id = `type`.id WHERE `type`.name = :type");
             $query->bindValue("type", $_GET['type']);
             $query->execute();
         }else{
