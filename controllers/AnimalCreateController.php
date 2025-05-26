@@ -21,11 +21,15 @@ class AnimalCreateController extends BaseAnimalsController {
         $tmp_name = $_FILES['image']['tmp_name'];
         $name =  $_FILES['image']['name'];
         $image_url = "/media/$name";
+        $typeQuery = $this->pdo->prepare("SELECT id FROM `type` WHERE name = :type");
+        $typeQuery->bindValue("type", $type);
+        $typeQuery->execute();
+        $typeId=$typeQuery->fetch(PDO::FETCH_COLUMN);
 
 
         $sql = <<<EOL
-INSERT INTO animals(title, description, type, info, image)
-VALUES(:title, :description, :type, :info, :image_url)
+INSERT INTO animals(title, description, type, info, image, type_id)
+VALUES(:title, :description, :type, :info, :image_url, :typeId)
 EOL;
         $query = $this->pdo->prepare($sql);
         // привязываем параметры
@@ -34,6 +38,7 @@ EOL;
         $query->bindValue("type", $type);
         $query->bindValue("info", $info);
         $query->bindValue("image_url", $image_url);
+        $query->bindValue("typeId", $typeId);
         
         // выполняем запрос
         $query->execute();

@@ -1,7 +1,6 @@
 {% extends "_layout.twig" %}
 {% import "macros.twig" as macros %}
 {% block content %}
-<pre>
 <div class="animal-row" style="
     display: flex;
     flex-direction: row;
@@ -11,15 +10,28 @@
 ">
   {% for object in animals %}
   <div class="animal-container" style="
-   display: flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
     border: 1px solid #ccc;
     padding: 15px;
     border-radius: 5px;
-    width: 250px;  
+    width: 250px;
+    position: relative; 
   ">
+    <form action="/animal/delete" method="POST" style="
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      z-index: 1;
+    ">
+      <input type="hidden" name="id" value="{{ object.id }}">
+      <button type="submit" class="btn btn-danger btn-sm">
+        <i class="fas fa-times"></i>
+      </button>
+    </form>
+    
     <div style="
       border: 1px solid black;
       display: flex;
@@ -32,11 +44,11 @@
         object-fit: cover; 
       ">
     </div>
+    
     {{ macros.btn(object.title, "/animal/" ~ object.id, True, style|default('primary')) }}
-    {{ macros.btn("Картинка",  "/animal/" ~ object.id   ~ "/?show=image", False, style|default('primary')) }}
-    {{ macros.btn("Описание",  "/animal/" ~ object.id ~ "/?show=info", False, style|default('primary')) }}
+    {{ macros.btn("Картинка", "/animal/" ~ object.id ~ "/?show=image", False, style|default('primary')) }}
+    {{ macros.btn("Описание", "/animal/" ~ object.id ~ "/?show=info", False, style|default('primary')) }}
   </div>
   {% endfor %}
 </div>
-</pre>
 {% endblock %}
