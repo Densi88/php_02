@@ -7,6 +7,7 @@ require_once "../controllers/SearchController.php";
 require_once "../controllers/AnimalCreateController.php";
 require_once "../controllers/TypeCreateController.php";
 require_once "../controllers/DeleteObjectController.php";
+require_once "../controllers/UpdateController.php";
 $pdo = new PDO("mysql:host=localhost;dbname=home_animals;charset=utf8", "root", "");
 
 
@@ -33,4 +34,5 @@ $router->add("#^/search/?$#", SearchController::class);
 $router->add("#^/add/types?$#", TypeCreateController::class);
 $router->add("#^/add/?$#", AnimalCreateController::class);
 $router->add("#^/animal/delete?$#", DeleteObjectController::class);
+$router->add("#^/animal/(?P<id>\d+)/edit$#", UpdateController::class);
 echo $router->get_or_default(MainController::class);

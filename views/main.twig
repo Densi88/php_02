@@ -48,6 +48,7 @@
     {{ macros.btn(object.title, "/animal/" ~ object.id, True, style|default('primary')) }}
     {{ macros.btn("Картинка", "/animal/" ~ object.id ~ "/?show=image", False, style|default('primary')) }}
     {{ macros.btn("Описание", "/animal/" ~ object.id ~ "/?show=info", False, style|default('primary')) }}
+    {{ macros.btn("Редактировать", "/animal/" ~ object.id ~ "/edit", False, style|default('primary')) }}
   </div>
   {% endfor %}
 </div>
