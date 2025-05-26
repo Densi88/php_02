@@ -8,6 +8,8 @@ require_once "../controllers/AnimalCreateController.php";
 require_once "../controllers/TypeCreateController.php";
 require_once "../controllers/DeleteObjectController.php";
 require_once "../controllers/UpdateController.php";
+require_once "../middlewares/LoginRequiredMiddleware.php";
+
 $pdo = new PDO("mysql:host=localhost;dbname=home_animals;charset=utf8", "root", "");
 
 
@@ -28,11 +30,18 @@ $title="";
 $context = [];
 $controller=null;
 $router = new Router($twig, $pdo);
-$router->add("#^/$#", MainController::class);
-$router->add("#^/animal/(?P<id>\d+)/?$#", ObjectController::class);
-$router->add("#^/search/?$#", SearchController::class);
-$router->add("#^/add/types?$#", TypeCreateController::class);
-$router->add("#^/add/?$#", AnimalCreateController::class);
-$router->add("#^/animal/delete?$#", DeleteObjectController::class);
-$router->add("#^/animal/(?P<id>\d+)/edit$#", UpdateController::class);
+$router->add("/$", MainController::class);
+$router->add("/animal/(?P<id>\d+)/?$", ObjectController::class);
+$router->add("/search/?$", SearchController::class);
+$router->add("/add/types/?$", TypeCreateController::class)
+    ->middleware(new LoginRequiredMiddleware());
+
+$router->add("/add/?$", AnimalCreateController::class)
+    ->middleware(new LoginRequiredMiddleware());
+
+$router->add("/animal/delete/?$", DeleteObjectController::class)
+    ->middleware(new LoginRequiredMiddleware());
+
+$router->add("/animal/(?P<id>\d+)/edit/?$", UpdateController::class)
+    ->middleware(new LoginRequiredMiddleware());
 echo $router->get_or_default(MainController::class);
