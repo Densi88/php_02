@@ -12,6 +12,8 @@ require_once "../middlewares/LoginRequiredMiddleware.php";
 require_once "../controllers/SetWelcomeController.php";
 require_once "../framework/BaseMidleware.php";
 require_once "../controllers/SetHistoryController.php";
+require_once "../controllers/LoginController.php";
+require_once "../controllers/LogoutController.php";
 
 $pdo = new PDO("mysql:host=localhost;dbname=home_animals;charset=utf8", "root", "");
 
@@ -34,9 +36,12 @@ $context = [];
 $controller=null;
 $router = new Router($twig, $pdo);
 //$router->add("/$", SetHistoryController::class);
+$router->add("/login$", LoginController::class);
 $router->add("/$", MainController::class);
-$router->add("/animal/(?P<id>\d+)/?$", ObjectController::class);
-$router->add("/search/?$", SearchController::class);
+$router->add("/animal/(?P<id>\d+)/?$", ObjectController::class)
+->middleware(new LoginRequiredMiddleware());
+$router->add("/search/?$", SearchController::class)
+->middleware(new LoginRequiredMiddleware());
 $router->add("/add/types/?$", TypeCreateController::class)
     ->middleware(new LoginRequiredMiddleware());
 $router->add("/add/?$", AnimalCreateController::class)
@@ -46,4 +51,5 @@ $router->add("/animal/delete/?$", DeleteObjectController::class)
 $router->add("/animal/(?P<id>\d+)/edit/?$", UpdateController::class)
     ->middleware(new LoginRequiredMiddleware());
 $router->add("/set-welcome", SetWelcomeController::class);
+$router->add("/logout", LogoutController::class);
 echo $router->get_or_default(MainController::class);
