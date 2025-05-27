@@ -1,5 +1,6 @@
 <?php
 require_once "../controllers/BaseAnimalsController.php";
+require_once "../controllers/SetHistoryController.php";
 
 class ObjectController extends BaseAnimalsController {
     public $template = "_object.twig";
@@ -7,6 +8,8 @@ class ObjectController extends BaseAnimalsController {
     public function getContext(): array {
         $id = $this->params['id'];
         $context = parent::getContext();
+        $history = new SetHistoryController();
+        $context = $history->get($context);
         
         // Получаем параметр show из GET-запроса
         $showParam = $_GET['show'] ?? '';
@@ -56,6 +59,7 @@ class ObjectController extends BaseAnimalsController {
         ];
         
         $context['current_route'] = $_SERVER['REQUEST_URI'] ?? '/';
+        $context["visit_history"] = isset($_SESSION['visit_history']) ? $_SESSION['visit_history'] : "";
         
         return $context;
     }
